@@ -1,0 +1,159 @@
+body {
+    background-color: #2b2b2b;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    color: #f4f430;
+}
+
+.monitor {
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    border: 2px solid #000000;
+}
+
+.header {
+    background-color: #cccccc;
+    color: #000000;
+    padding: 10px;
+    font-size: 150%;
+    font-weight: bold;
+    
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+thead {
+    background-color: #3a3a3a;
+    font-weight: bold;
+}
+
+th {
+    text-align: left;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.col-line img {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.col-line {
+    width: 8%;   
+}
+
+.col-direction {
+    width: 25%;
+    font-weight: bold;
+}
+
+.col-info {
+    width: 34%;
+    font-size: 75%;
+}
+
+.col-vehicles {
+    width: 25%;
+    size: 110%;
+}
+
+.col-vehicles img {
+    height: 28px;   /* Bildhöhe begrenzt */
+    width: auto;    /* proportional skalieren */
+}
+
+.col-departure {
+    width: 8%;
+}
+
+td {
+    padding: 10px;
+    border-top: 1px solid #f4f430;
+    height: 28px;
+    line-height: 20px;
+    vertical-align: middle;
+    overflow: hidden;
+}
+
+td:not(.col-info) {
+    white-space: nowrap;
+}
+
+td img {
+    height: 20px;   /* Bildhöhe begrenzt */
+    width: auto;    /* proportional skalieren */
+    vertical-align: middle;
+}
+
+.col-info {
+    overflow: hidden;
+    position: relative;
+    padding: 5px 10px;
+    white-space: nowrap;
+}
+
+.col-info-text {
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.col-info-text[data-overflow="true"] {
+    animation: marquee 15s linear infinite;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.col-vehicles {
+    text-align: center;
+}
+
+.col-departure {
+    text-align: right;
+    white-space: nowrap;
+}
+
+tr {
+    background-color: #333333;
+}
+
+tr:nth-child(even) {
+    background-color: #333333;
+}
+
+.line {
+    font-weight: bold;
+}
+
+/*.blink-tram {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background-color: #f4f430;
+    -webkit-mask: url("tram.svg") no-repeat center;
+    mask: url("/icons/tram.svg") no-repeat center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    animation: blink 2s infinite;
+}*/
+
+.blink-tram {
+    color: #f4f430;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+}

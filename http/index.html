@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Auswahl</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="/manifest.json" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/offline/service-worker.js');
+    }
+  </script>     
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">FDNFS</div>
+  <h1>Anwendungsübersicht</h1>
+</header>
+
+<main class="container">
+  <a href="/Abfahrtsmonitor/">
+    <div class="tile">
+        <h2>Abfahrtsmonitor</h2>
+        <p>Abfahrtsmonitor für Abfahrten im historischen Straßenbahndepot.</p>
+    </div>
+ </a>
+
+  <a href="/Fahrplanverwaltung/">
+    <div class="tile">
+        <h2>Fahrplanverwaltung</h2>
+        <p>Verwaltung der Fahrplandaten.</p>
+    </div>
+ </a>
+</main>
+
+<script src="/scripts/default_data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

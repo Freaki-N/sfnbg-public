@@ -1,0 +1,10 @@
+typ,linie,sonderzeichen,ziel_oben,ziel_unten,sonderinfo,abfahrtszeit,max_vorlauf,betriebstag,verkehrstage,abweichung
+0,15,0,Burgring,,,10:20,60,,Sa+So
+0,15,0,Burgring,,,11:20,60,,Sa+So
+0,15,0,Burgring,,,12:20,60,,Sa+So
+0,15,0,Burgring,,,13:20,60,,Sa+So
+0,15,0,Burgring,,,14:20,60,,Sa+So
+0,15,0,Burgring,,,15:20,60,,Sa+So
+0,15,0,Burgring,,,16:20,60,,Sa+So
+0,15,0,Hauptbahnhof,,Kurzfahrt,17:20,60,,Sa+So
+1,0,0,Auf Wiedersehen,,,18:00,60,,Sa+So

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Abfahrtsmonitor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+
+<div class="monitor">
+    <div class="header">
+        Historisches Straßenbahndepot St. Peter
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="col-line">Linie</th>
+                <th class="col-direction">Richtung</th>
+                <th class="col-info">Sonderinfo</th>
+                <th class="col-vehicles">Fahrzeuge</th>
+                <th class="col-departure">Abfahrt</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <!-- Dynamisch -->
+        </tbody>
+    </table>
+</div>
+
+<script src="/scripts/default_data.js"></script>
+<script src="/scripts/default.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

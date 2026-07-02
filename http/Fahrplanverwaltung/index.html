@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fahrplandaten Verwaltung</title>
+    <link rel="stylesheet" href="stylesheets/style.css" />
+    <link rel="stylesheet" href="stylesheets/modal-window.css" />
+    <link rel="stylesheet" href="stylesheets/table-style.css" />
+    <link rel="manifest" href="/manifest.json" />
+</head>
+
+<body>
+    <!-- Statusleiste -->
+    <header class="status-bar">
+        <div class="header-left">
+            <div id="home">
+                <a href="/index.html" aria-label="Startseite">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                    </a>
+            </div>
+            <div id="current-date">Datum: --</div>
+            <div id="current-time">Uhrzeit: --</div>
+            <label for="betriebstagSelector" style="color: white; margin-left: 15px;">
+                Betriebstag:
+                <input type="date" id="betriebstagSelector" />
+            </label>
+        </div>
+        <div class="header-right">
+            <div id="connection-status" class="status-icon online" title="Verbindung OK">●</div>
+            <button id="toggle-mode">Profimodus</button>
+            <button id="settings-btn" title="Einstellungen">⚙️</button>
+        </div>
+    </header>
+
+    <!-- Hauptinhalt -->
+    <main class="main-grid">
+        <section id="fahrten" class="card">
+            <h2>Fahrten</h2>
+
+            <table id="fahrtenTabelle" class="daten-tabelle">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Abfahrtszeit</th>
+                        <th>Linie</th>
+                        <th>Ziel</th>
+                        <th>Sonderinfo</th>
+                        <th>Aktionen</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="button-neu">
+                <button id="neueFahrtBtn">Neue Fahrt anlegen</button>
+            </div>
+        </section>
+        <section id="fuehrungen" class="card">
+            <h2>Führungen</h2>
+
+            <table id="fuehrungenTabelle" class="daten-tabelle">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Startzeit</th>
+                        <th>Sonderinfo</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="button-neu">
+                <button id="neueFuehrungBtn">Neue Führung anlegen</button>
+            </div>
+        </section>
+        <section id="sondertexte" class="card">
+            <h2>Sondertexte</h2>
+
+            <table id="sondertexteTabelle" class="daten-tabelle">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Startzeit</th>
+                        <th>Linie</th>
+                        <th>Zeile 1</th>
+                        <th>Zeile 2</th>
+                        <th>Sonderzeichen</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="button-neu">
+                <button id="neuerSondertextBtn">Neuen Sondertext anlegen</button>
+            </div>
+        </section>
+        <section id="anzeige" class="card">
+            <h2>Anzeigeverwaltung</h2>
+            <!-- Inhalt folgt -->
+        </section>
+    </main>
+
+    <!-- MODALES FENSTER: Fahrt erstellen -->
+    <div id="fahrtModal" class="modal-overlay">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3>Fahrt erstellen</h3>
+                <button class="close-button" onclick="schliesseModal()">×</button>
+            </div>
+            <div class="modal-body" id="fahrtModalInhalt">
+                <div id="fahrtFormWrapper" style="display: block; margin-top: 10px;" class="formWrapper">
+                    <form id="fahrtForm" class="eingabeForm">
+                        <div>
+                            <label for="abf-betriebstag">Betriebstag:</label>
+                            <input type="date" id="abf-betriebstag" name="betriebstag" required />
+                        </div>
+                        <div>
+                            <label for="abf-abfahrtszeit">Abfahrtszeit:</label>
+                            <input type="time" id="abf-abfahrtszeit" name="abfahrtszeit" required />
+                        </div>
+                        <div>
+                            <label for="abf-linie">Linie:</label>
+                            <input type="text" id="abf-linie" name="liniennummer" required />
+                        </div>
+                        <div>
+                            <label for="abf-sonderzeichen">Sonderzeichen:</label>
+                            <!--<input type="text" id="abf-sonderzeichen" name="sonderzeichen" />-->
+                            <select id="abf-sonderzeichen" name="sonderzeichen">
+                                <option value="0">-</option>
+                                <option value="1">U1</option>
+                                <option value="2">U2</option>
+                                <option value="3">U3</option>
+                                <option value="4">U4</option>
+                                <option value="5">U5</option>
+                                <option value="6">U6</option>
+                                <option value="7">U7</option>
+                                <option value="8">U8</option>
+                                <option value="9">U9</option>
+                                <option value="10">VAG</option>
+                                <option value="11">U11</option>
+                                <option value="12">DB</option>
+                                <option value="13">P+R</option>
+                                <option value="14">S-Bahn</option>
+                                <option value="15">U</option>
+                                <option value="16">Spielwarenmesse 1</option>
+                                <option value="17">Spielwarenmesse 2</option>
+                                <option value="18">Herz</option>
+                                <option value="19">Herz mit Pfeil</option>
+                                <option value="20">Eheringe</option>
+                                <option value="21">U21</option>
+                                <option value="22">Nürnberger Burg</option>
+                                <option value="23">Flugzeug</option>
+                                <option value="24">Christkindl</option>
+                                <option value="25">Schüler</option>
+                                <option value="26">Fußballspieler</option>
+                                <option value="27">Fußball</option>
+                                <option value="28">Cocktail</option>
+                                <option value="29">Kaffe</option>
+                                <option value="30">Fürther Freiheit</option>
+                                <option value="31">Zug</option>
+                                <option value="51">U1 invertiert</option>
+                                <option value="52">U2 invertiert</option>
+                                <option value="53">U3 invertiert</option>
+                                <option value="54">U4 invertiert</option>
+                                <option value="55">U5 invertiert</option>
+                                <option value="56">U6 invertiert</option>
+                                <option value="57">U7 invertiert</option>
+                                <option value="58">U8 invertiert</option>
+                                <option value="59">U9 invertiert</option>
+                                <option value="60">U11 invertiert</option>
+                                <option value="61">U21 invertiert</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="abf-ziel">Ziel:</label>
+                            <input type="text" id="abf-ziel" name="ziel" required />
+                        </div>
+                        <div>
+                            <label for="abf-sonderinfo">Sonderinfo:</label>
+                            <input type="text" id="abf-sonderinfo" name="sonderinfo" />
+                        </div>
+                        <button type="submit">Speichern</button>
+                        <button type="button" id="neueFahrtAbbrechenBtn">Abbrechen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALES FENSTER: Fahrt bearbeiten -->
+    <div id="fahrtBearbeitenModal" class="modal-overlay">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3>Fahrt bearbeiten</h3>
+                <button class="close-button" onclick="schliesseModal()">×</button>
+            </div>
+            <div class="modal-body" id="fahrtBearbeitenModalInhalt">
+                <div id="fahrtBearbeitenFormWrapper" style="display: block; margin-top: 10px;" class="formWrapper">
+                    <form id="fahrtBearbeitenForm" class="eingabeForm">
+                        <input type="hidden" id="fahrt-bearbeiten-id" name="id" required/>
+                        <div>
+                            <label for="fahrt-verspaetung">Abfahrtszeit (Prognose):</label>
+                            <input type="time" id="fahrt-verspaetung" name="abfahrtszeit_prognose" required/>
+                        </div>
+                        <div>
+                            <label for="sel-triebwagen">Triebwagen</label>
+                            <select id="sel-triebwagen" name="triebwagen" required>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="sel-beiwagen-1">1. Beiwagen</label>
+                            <select id="sel-beiwagen-1" name="beiwagen_1" required>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="sel-beiwagen-2">2. Beiwagen</label>
+                            <select id="sel-beiwagen-2" name="beiwagen_2" required>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="edit-sonderinfo">Sonderinfo:</label>
+                            <input type="text" id="edit-sonderinfo" name="sonderinfo" />
+                        </div>
+                        <button type="submit">Speichern</button>
+                        <button type="button" id="fahrtBearbeitenAbbrechenBtn">Abbrechen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALES FENSTER: Führung erstellen -->
+    <div id="fuehrungModal" class="modal-overlay">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3>Führung erstellen</h3>
+                <button class="close-button" onclick="schliesseModal()">×</button>
+            </div>
+            <div class="modal-body" id="fuehrungModalInhalt">
+                <div id="fuehrungFormWrapper" style="display: block; margin-top: 10px;" class="formWrapper">
+                    <form id="fuehrungForm" class="eingabeForm">
+                        <div>
+                            <label for="fuehrung-betriebstag">Betriebstag:</label>
+                            <input type="date" id="fuehrung-betriebstag" name="betriebstag" required />
+                        </div>
+                        <div>
+                            <label for="fuehrung-startzeit">Startzeit:</label>
+                            <input type="time" id="fuehrung-startzeit" name="startzeit" required />
+                        </div>
+                        <div>
+                            <label for="fuehrung-sonderinfo">Sonderinfo:</label>
+                            <input type="text" id="fuehrung-sonderinfo" name="sonderinfo" />
+                        </div>
+                        <button type="submit">Speichern</button>
+                        <button type="button" id="neueFuehrungAbbrechenBtn">Abbrechen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALES FENSTER: Führung erstellen -->
+    <div id="sondertextModal" class="modal-overlay">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3>Sondertext erstellen</h3>
+                <button class="close-button" onclick="schliesseModal()">×</button>
+            </div>
+            <div class="modal-body" id="sondertextModalInhalt">
+                <div id="sondertextFormWrapper" style="display: block; margin-top: 10px;" class="formWrapper">
+                    <form id="sondertextForm" class="eingabeForm">
+                        <div>
+                            <label for="sondertext-betriebstag">Betriebstag:</label>
+                            <input type="date" id="sondertext-betriebstag" name="betriebstag" required />
+                        </div>
+                        <div>
+                            <label for="sondertext-startzeit">Startzeit:</label>
+                            <input type="time" id="sondertext-startzeit" name="startzeit" required />
+                        </div>
+                        <div>
+                            <label for="sondertext-zeile1">Erste Zeile:</label>
+                            <input type="text" id="sondertext-zeile1" name="zeile1" />
+                        </div>
+                        <div>
+                            <label for="sondertext-zeile2">Zweite Zeile:</label>
+                            <input type="text" id="sondertext-zeile2" name="zeile2" />
+                        </div>
+                        <div>
+                            <label for="sondertext-liniennummer">Liniennummer:</label>
+                            <input type="text" id="sondertext-liniennummer" name="liniennummer" />
+                        </div>
+                        <div>
+                            <label for="sondertext-sonderzeichen">Sonderzeichen:</label>
+                            <!--<input type="text" id="sondertext-sonderinfo--" name="sonderzeichen" />-->
+                            <select id="sondertext-sonderzeichen" name="sonderzeichen">
+                                <option value="0">-</option>
+                                <option value="1">U1</option>
+                                <option value="2">U2</option>
+                                <option value="3">U3</option>
+                                <option value="4">U4</option>
+                                <option value="5">U5</option>
+                                <option value="6">U6</option>
+                                <option value="7">U7</option>
+                                <option value="8">U8</option>
+                                <option value="9">U9</option>
+                                <option value="10">VAG</option>
+                                <option value="11">U11</option>
+                                <option value="12">DB</option>
+                                <option value="13">P+R</option>
+                                <option value="14">S-Bahn</option>
+                                <option value="15">U</option>
+                                <option value="16">Spielwarenmesse 1</option>
+                                <option value="17">Spielwarenmesse 2</option>
+                                <option value="18">Herz</option>
+                                <option value="19">Herz mit Pfeil</option>
+                                <option value="20">Eheringe</option>
+                                <option value="21">U21</option>
+                                <option value="22">Nürnberger Burg</option>
+                                <option value="23">Flugzeug</option>
+                                <option value="24">Christkindl</option>
+                                <option value="25">Schüler</option>
+                                <option value="26">Fußballspieler</option>
+                                <option value="27">Fußball</option>
+                                <option value="28">Cocktail</option>
+                                <option value="29">Kaffe</option>
+                                <option value="30">Fürther Freiheit</option>
+                                <option value="31">Zug</option>
+                                <option value="51">U1 invertiert</option>
+                                <option value="52">U2 invertiert</option>
+                                <option value="53">U3 invertiert</option>
+                                <option value="54">U4 invertiert</option>
+                                <option value="55">U5 invertiert</option>
+                                <option value="56">U6 invertiert</option>
+                                <option value="57">U7 invertiert</option>
+                                <option value="58">U8 invertiert</option>
+                                <option value="59">U9 invertiert</option>
+                                <option value="60">U11 invertiert</option>
+                                <option value="61">U21 invertiert</option>
+                            </select>
+                        </div>
+                        <button type="submit">Speichern</button>
+                        <button type="button" id="neueSondertextAbbrechenBtn">Abbrechen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/scripts/default_data.js"></script>
+    <script src="/scripts/default.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/modal-window.js"></script>
+    <script src="scripts/fahrten.js"></script>
+    <script src="scripts/fuehrungen.js"></script>
+    <script src="scripts/sondertexte.js"></script>
+</body>
+
+</html>

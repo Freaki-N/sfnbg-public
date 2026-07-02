@@ -1,0 +1,264 @@
+/* Fahrtentabelle allgemein 
+#fahrten,
+#fuehrungen,
+#sondertexte {
+  overflow-x: auto;
+}
+
+#fahrtentable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  background-color: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+#fahrten thead {
+  background-color: #2c3e50;
+  color: white;
+}
+
+#fahrten th,
+#fahrten td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+#fahrten tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+main button {
+  margin-right: 6px;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+main button:hover {
+  background-color: #2980b9;
+}
+
+
+#fahrtFormWrapper {
+  background: #f8f8f8;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.eingabeForm div {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.eingabeFormlabel {
+  margin-bottom: 4px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.eingabeForm input {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.eingabeForm button[type="submit"],
+.eingabeForm button[type="button"] {
+  margin-right: 8px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.eingabeForm button[type="submit"] {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.eingabeForm button[type="submit"]:hover {
+  background-color: #27ae60;
+}
+
+.eingabeForm button[type="button"] {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.eingabeForm button[type="button"]:hover {
+  background-color: #c0392b;
+}
+
+
+@media (max-width: 768px) {
+  #fahrten table,
+  #fahrten thead,
+  #fahrten tbody,
+  #fahrten th,
+  #fahrten td,
+  #fahrten tr {
+    display: block;
+    width: 100%;
+  }
+
+  #fahrten thead {
+    display: none;
+  }
+
+  #fahrten tr {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #fff;
+  }
+
+  #fahrten td {
+    position: relative;
+    padding-left: 50%;
+    border: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  #fahrten td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    color: #555;
+  }
+}*/
+
+/* Fahrtentabelle allgemein */
+.daten-tabelle {
+  overflow-x: auto;
+}
+
+#fahrten table,
+#fuehrungen table,
+#sondertexte table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  background-color: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  table-layout: auto;
+}
+
+.daten-tabelle thead {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.daten-tabelle th,
+.daten-tabelle td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  font-weight: bold;
+}
+
+.daten-tabelle tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Abweichung Farbcodierung */
+.deviation-none {
+  background-color: #d4edda;
+  color: #155724;
+  font-weight: bold;
+}
+
+.deviation-small {
+  background-color: #fff3cd;
+  color: #856404;
+  font-weight: bold;
+}
+
+.deviation-medium {
+  background-color: #ffe5cc;
+  color: #b35806;
+  font-weight: bold;
+}
+
+.deviation-large {
+  background-color: #f8d7da;
+  color: #721c24;
+  font-weight: bold;
+}
+
+.deviation-early-small {
+  background-color: #cfe2ff;
+  color: #084298;
+  font-weight: bold;
+}
+
+.deviation-early-large {
+  background-color: #b6d4fe;
+  color: #055160;
+  font-weight: bold;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .daten-tabelle table,
+  .daten-tabelle thead,
+  .daten-tabelle tbody,
+  .daten-tabelle th,
+  .daten-tabelle td,
+  .daten-tabelle tr {
+    display: block;
+    width: 100%;
+  }
+
+  .daten-tabelle thead {
+    display: none;
+  }
+
+  .daten-tabelle tr {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #fff;
+  }
+
+  .daten-tabelle td {
+    position: relative;
+    padding-left: 50%;
+    border: none;
+    border-bottom: 1px solid #eee;
+    
+  }
+
+  .daten-tabelle td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    color: #555;
+  }
+}
