@@ -67,7 +67,8 @@ main button:hover {
   font-size: 0.9rem;
 }
 
-.eingabeForm input {
+.eingabeForm input,
+.eingabeForm select {
   padding: 6px 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -181,6 +182,67 @@ main button:hover {
   background-color: #f9f9f9;
 }
 
+.card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.card-heading h2 {
+  margin-bottom: 0;
+}
+
+.past-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.past-filter input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  width: 42px;
+  height: 24px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 0;
+  border-radius: 12px;
+  background: #9aa4ad;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.past-filter input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.2s;
+}
+
+.past-filter input[type="checkbox"]:checked {
+  background: #3498db;
+}
+
+.past-filter input[type="checkbox"]:checked::before {
+  transform: translateX(18px);
+}
+
+.past-filter input[type="checkbox"]:focus-visible {
+  outline: 2px solid #1b6fa8;
+  outline-offset: 2px;
+}
+
 /* Abweichung Farbcodierung */
 .deviation-none {
   background-color: #d4edda;
@@ -221,7 +283,36 @@ main button:hover {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .daten-tabelle table,
+
+  .daten-tabelle tr {
+    font-size: 0.6rem;
+  }
+
+  /*.daten-tabelle tr td {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    overflow: hidden;
+  }*/
+
+  .daten-tabelle th,
+  .daten-tabelle td {
+    padding: 4px 5px;
+    text-align: left;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .abfahrtszeit-cell {
+    max-width: 75px;
+    
+  }
+
+  .sonderinfo-cell {
+    display: none;
+  }
+    
+  
+  /*.daten-tabelle table,
   .daten-tabelle thead,
   .daten-tabelle tbody,
   .daten-tabelle th,
@@ -260,5 +351,5 @@ main button:hover {
     white-space: nowrap;
     font-size: 0.85rem;
     color: #555;
-  }
+  }*/
 }

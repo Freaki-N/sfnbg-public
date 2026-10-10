@@ -5,10 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fahrplandaten Verwaltung</title>
-    <link rel="stylesheet" href="stylesheets/style.css" />
+    <link rel="stylesheet" href="stylesheets/style.css?v=20261009-1206" />
     <link rel="stylesheet" href="stylesheets/modal-window.css" />
-    <link rel="stylesheet" href="stylesheets/table-style.css" />
+    <link rel="stylesheet" href="stylesheets/table-style.css?v=20261009-1206" />
     <link rel="manifest" href="/manifest.json" />
+    <script src="/scripts/register-service-worker.js" defer></script>
 </head>
 
 <body>
@@ -22,6 +23,7 @@
                     </svg>
                     </a>
             </div>
+            <button id="patchnotesButton" class="patchnotes-help-button" type="button" title="Aktuelle Patchnotes" aria-label="Aktuelle Patchnotes öffnen" onclick="oeffnePatchnotes()">?</button>
             <div id="current-date">Datum: --</div>
             <div id="current-time">Uhrzeit: --</div>
             <label for="betriebstagSelector" style="color: white; margin-left: 15px;">
@@ -39,16 +41,22 @@
     <!-- Hauptinhalt -->
     <main class="main-grid">
         <section id="fahrten" class="card">
-            <h2>Fahrten</h2>
+            <div class="card-heading">
+                <h2>Fahrten</h2>
+                <label class="past-filter">
+                    <span>Vergangene ausblenden</span>
+                    <input type="checkbox" id="fahrtenVergangenheitAusblenden" />
+                </label>
+            </div>
 
             <table id="fahrtenTabelle" class="daten-tabelle">
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Abfahrtszeit</th>
+                        <th>Abf.</th>
                         <th>Linie</th>
                         <th>Ziel</th>
-                        <th>Sonderinfo</th>
+                        <th class="sonderinfo-cell">Sonderinfo</th>
                         <th>Aktionen</th>
                     </tr>
                 </thead>
@@ -59,7 +67,13 @@
             </div>
         </section>
         <section id="fuehrungen" class="card">
-            <h2>Führungen</h2>
+            <div class="card-heading">
+                <h2>Führungen</h2>
+                <label class="past-filter">
+                    <span>Vergangene ausblenden</span>
+                    <input type="checkbox" id="fuehrungenVergangenheitAusblenden" />
+                </label>
+            </div>
 
             <table id="fuehrungenTabelle" class="daten-tabelle">
                 <thead>
@@ -77,13 +91,19 @@
             </div>
         </section>
         <section id="sondertexte" class="card">
-            <h2>Sondertexte</h2>
+            <div class="card-heading">
+                <h2>Sondertexte</h2>
+                <label class="past-filter">
+                    <span>Vergangene ausblenden</span>
+                    <input type="checkbox" id="sondertexteVergangenheitAusblenden" />
+                </label>
+            </div>
 
             <table id="sondertexteTabelle" class="daten-tabelle">
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Startzeit</th>
+                        <th>Endzeit</th>
                         <th>Linie</th>
                         <th>Zeile 1</th>
                         <th>Zeile 2</th>
@@ -115,6 +135,18 @@
                         <div>
                             <label for="abf-betriebstag">Betriebstag:</label>
                             <input type="date" id="abf-betriebstag" name="betriebstag" required />
+                        </div>
+                        <div>
+                            <label for="abf-block-id">Kurs:</label>
+                            <input type="text" id="abf-block-id" name="block_id" list="abf-kursvorschlaege" placeholder="Kurs eingeben oder auswählen" autocomplete="off" />
+                            <datalist id="abf-kursvorschlaege">
+                                <option value="13.1"></option>
+                                <option value="15.1"></option>
+                                <option value="24.1"></option>
+                                <option value="24.2"></option>
+                                <option value="24.3"></option>
+                                <option value="75.1"></option>
+                            </datalist>
                         </div>
                         <div>
                             <label for="abf-abfahrtszeit">Abfahrtszeit:</label>
@@ -348,13 +380,32 @@
         </div>
     </div>
 
+    <!-- MODALES FENSTER: Aktuelle Patchnotes -->
+    <div id="patchnotesModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="patchnotesTitel">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3 id="patchnotesTitel">Aktuelle Patchnotes</h3>
+                <button class="close-button" type="button" onclick="schliesseModal()" aria-label="Patchnotes schließen">×</button>
+            </div>
+            <div class="modal-body">
+                <h4>Version vom 09.10.2026</h4>
+                <ul>
+                    <li>Vergangene Fahrten, Führungen und Sondertexte können jetzt jeweils ausgeblendet werden.</li>
+                    <li>Fahrten können bis zu 15 Minuten vor ihrer Abfahrt bestätigt werden.</li>
+                    <li>Beim Anlegen einer Fahrt kann ein Kurs hinterlegt werden. Bei einer Fahrzeugzuweisung werden alle Fahrten mit demselben Kurs automatisch zugewiesen. Nachträgliche Änderungen sind für jede Fahrt individuell möglich.</li>
+                    <li>Die Mobile-Ansicht wurde verbessert.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <script src="/scripts/default_data.js"></script>
     <script src="/scripts/default.js"></script>
-    <script src="scripts/script.js"></script>
-    <script src="scripts/modal-window.js"></script>
-    <script src="scripts/fahrten.js"></script>
-    <script src="scripts/fuehrungen.js"></script>
-    <script src="scripts/sondertexte.js"></script>
+    <script src="scripts/script.js?v=20261009-1206"></script>
+    <script src="scripts/modal-window.js?v=20261010-1538"></script>
+    <script src="scripts/fahrten.js?v=20261009-1206"></script>
+    <script src="scripts/fuehrungen.js?v=20261009-1206"></script>
+    <script src="scripts/sondertexte.js?v=20261009-1206"></script>
 </body>
 
 </html>

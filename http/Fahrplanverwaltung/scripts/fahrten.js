@@ -3,9 +3,55 @@ betriebstagInput.addEventListener('change', () => {
   ladeFahrten();
 });
 
+const fahrtenVergangenheitAusblenden = document.getElementById('fahrtenVergangenheitAusblenden');
+fahrtenVergangenheitAusblenden.addEventListener('change', () => {
+  ladeFahrten();
+});
+
+setInterval(() => {
+  if (fahrtenVergangenheitAusblenden.checked) {
+    ladeFahrten().catch(error => console.error('Fahrten konnten nicht aktualisiert werden:', error));
+  }
+}, 30 * 1000);
+
 const triebwagen = ["-", "111", "144", "204", "250", "305", "363", "701", "867", "876", "877", "910", "10xx", "11xx", "12xx", "20xx", "507", "521", "768", "833", "135", "Postbus"];
 const beiwagen_1 = ["-", "336", "1023", "1166", "1251", "1252", "1258", "1278", "1304", "1556", "1581"];
 const beiwagen_2 = ["-", "1251", "1252", "1258", "1278", "1304"];
+
+async function holeFahrtenDaten() {
+  const res = await fetch(API_URL + 'fahrten/');
+  if (!res.ok) {
+    throw new Error(`Fahrten konnten nicht geladen werden (${res.status}).`);
+  }
+  const text = await res.text();
+  return text.startsWith('{') || text.startsWith('[')
+    ? JSON.parse(text)
+    : parseCSV(text);
+}
+
+async function aktualisiereKursvorschlaege() {
+  const betriebstag = document.getElementById('abf-betriebstag').value;
+  const kursVorschlaege = document.getElementById('abf-kursvorschlaege');
+  const fahrten = await holeFahrtenDaten();
+  if (document.getElementById('abf-betriebstag').value !== betriebstag) {
+    return;
+  }
+
+  const kurse = new Set(
+    fahrten
+      .filter(fahrt => fahrt.betriebstag === betriebstag && fahrt.block_id)
+      .map(fahrt => fahrt.block_id)
+  );
+  kursVorschlaege.querySelectorAll('option[data-day-course]').forEach(option => option.remove());
+  kurse.forEach(kurs => {
+    if (![...kursVorschlaege.options].some(option => option.value === kurs)) {
+      const option = document.createElement('option');
+      option.value = kurs;
+      option.dataset.dayCourse = 'true';
+      kursVorschlaege.appendChild(option);
+    }
+  });
+}
 
 function setFahrtBearbeitenForm(fahrt){
   document.getElementById('fahrtForm').reset();
@@ -62,15 +108,18 @@ function setFahrtBearbeitenForm(fahrt){
 }
 
 async function ladeFahrten() {
-  const res = await fetch(API_URL + 'fahrten/');
-  const text = await res.text();
-  const daten = text.startsWith('{') || text.startsWith('[')
-    ? JSON.parse(text)
-    : parseCSV(text);
+  const daten = await holeFahrtenDaten();
 
   const aktuellerTag = betriebstagInput.value; // YYYY-MM-DD
 
-  const gefilterteFahrten = daten.filter(fahrt => fahrt.betriebstag === aktuellerTag);
+  const gefilterteFahrten = daten.filter(fahrt => {
+    if (fahrt.betriebstag !== aktuellerTag) {
+      return false;
+    }
+
+    return !fahrtenVergangenheitAusblenden.checked
+      || !istMehrAlsZehnMinutenVergangen(fahrt.betriebstag, fahrt.abfahrtszeit);
+  });
 
   gefilterteFahrten.sort((a, b) => {
     const zeitA = a.abfahrtszeit.split(':').map(Number);
@@ -121,6 +170,7 @@ async function ladeFahrten() {
     }
 
     tdAbfahrtszeit.textContent = fahrt.abfahrtszeit + " " + abfahrtszeit_prognose;
+    tdAbfahrtszeit.classList.add('abfahrtszeit-cell');
     //tdAbfahrtszeit.appendChild(spanAbweichung);
     tr.appendChild(tdAbfahrtszeit);
 
@@ -135,6 +185,7 @@ async function ladeFahrten() {
     
     const tdSonderinfo = document.createElement('td');
     tdSonderinfo.textContent = fahrt.sonderinfo ?? "-";
+    tdSonderinfo.setAttribute('class', 'sonderinfo-cell');
     tr.appendChild(tdSonderinfo);
 
     const tdAktionen = document.createElement('td');
@@ -202,6 +253,11 @@ document.getElementById('fahrtBearbeitenAbbrechenBtn').addEventListener('click',
 document.getElementById('neueFahrtBtn').addEventListener('click', () => {
     oeffneModal(document.getElementById('fahrtModal'));
     document.getElementById('abf-betriebstag').value = betriebstagInput.value;
+    aktualisiereKursvorschlaege().catch(error => console.error('Kursvorschläge konnten nicht geladen werden:', error));
+});
+
+document.getElementById('abf-betriebstag').addEventListener('change', () => {
+    aktualisiereKursvorschlaege().catch(error => console.error('Kursvorschläge konnten nicht geladen werden:', error));
 });
 
 document.getElementById('neueFahrtAbbrechenBtn').addEventListener('click', () => {
@@ -247,6 +303,3 @@ document.getElementById('fahrtBearbeitenForm').addEventListener('submit', async 
 resetFahrtForm();
 
 ladeFahrten();
-
-
-

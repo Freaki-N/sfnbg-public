@@ -38,8 +38,8 @@ document.getElementById('settings-btn').addEventListener('click', () => {
 
 function createTrashIcon() {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("width", "20");
-  svg.setAttribute("height", "20");
+  svg.setAttribute("width", "15");
+  svg.setAttribute("height", "15");
   svg.setAttribute("viewBox", "0 0 24 24");
   svg.setAttribute("fill", "currentColor");
 
@@ -52,8 +52,8 @@ function createTrashIcon() {
 
 function createEditIcon() {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("width", "20");
-  svg.setAttribute("height", "20");
+  svg.setAttribute("width", "15");
+  svg.setAttribute("height", "15");
   svg.setAttribute("viewBox", "0 0 24 24");
   svg.setAttribute("fill", "currentColor");
 
@@ -66,8 +66,8 @@ function createEditIcon() {
 
 function createClockIcon() {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("width", "20");
-  svg.setAttribute("height", "20");
+  svg.setAttribute("width", "15");
+  svg.setAttribute("height", "15");
   svg.setAttribute("viewBox", "0 0 24 24");
   svg.setAttribute("fill", "currentColor");
 
@@ -80,8 +80,8 @@ function createClockIcon() {
 
 function createCheckIcon() {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("width", "20");
-  svg.setAttribute("height", "20");
+  svg.setAttribute("width", "15");
+  svg.setAttribute("height", "15");
   svg.setAttribute("viewBox", "0 0 24 24");
   svg.setAttribute("fill", "currentColor");
 
@@ -108,4 +108,11 @@ function differenzInMinuten(zeit1, zeit2) {
   return result;
 }
 
+function istMehrAlsZehnMinutenVergangen(betriebstag, uhrzeit) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(betriebstag ?? '') || !/^\d{2}:\d{2}(?::\d{2})?$/.test(uhrzeit ?? '')) {
+    return false;
+  }
 
+  const zeitpunkt = new Date(`${betriebstag}T${uhrzeit.length === 5 ? `${uhrzeit}:00` : uhrzeit}`);
+  return !Number.isNaN(zeitpunkt.getTime()) && Date.now() - zeitpunkt.getTime() > 10 * 60 * 1000;
+}

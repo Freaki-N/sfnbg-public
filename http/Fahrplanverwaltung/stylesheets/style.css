@@ -66,6 +66,18 @@ header.status-bar button {
   font-size: 0.9rem;
 }
 
+header.status-bar button.patchnotes-help-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 50%;
+  font-weight: bold;
+  flex: 0 0 30px;
+}
+
 .status-icon {
   font-size: 1.2em;
 }
@@ -250,4 +262,68 @@ select:focus {
   outline: none;
   border-color: #3498db;
   box-shadow: 0 0 3px rgba(52, 152, 219, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  /* === Hauptbereich === */
+  main.main-grid {
+    margin-top: 50px;
+    padding: 10px;
+    gap: 10px;
+
+  }
+
+  /* === Karten-Stil === */
+  .card {
+    border-radius: 5px;
+    padding: 7px;
+  }
+
+  .header-right {
+    display: none;
+  }
+
+
+  
+  /*.daten-tabelle table,
+  .daten-tabelle thead,
+  .daten-tabelle tbody,
+  .daten-tabelle th,
+  .daten-tabelle td,
+  .daten-tabelle tr {
+    display: block;
+    width: 100%;
+  }
+
+  .daten-tabelle thead {
+    display: none;
+  }
+
+  .daten-tabelle tr {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #fff;
+  }
+
+  .daten-tabelle td {
+    position: relative;
+    padding-left: 50%;
+    border: none;
+    border-bottom: 1px solid #eee;
+    
+  }
+
+  .daten-tabelle td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    color: #555;
+  }*/
 }

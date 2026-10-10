@@ -6,11 +6,7 @@
   <title>App Auswahl</title>
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="/manifest.json" />
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/offline/service-worker.js');
-    }
-  </script>     
+  <script src="/scripts/register-service-worker.js" defer></script>
 </head>
 <body>
 
@@ -31,6 +27,20 @@
     <div class="tile">
         <h2>Fahrplanverwaltung</h2>
         <p>Verwaltung der Fahrplandaten.</p>
+    </div>
+ </a>
+
+ <a href="http://display1:1880/">
+    <div class="tile">
+        <h2>Node-RED Dashboard</h2>
+        <p>Verwaltung der Low-Code-Anwendungen.</p>
+    </div>
+ </a>
+
+ <a href="http://shellyplugs3-9070694d5594.local/#/">
+    <div class="tile">
+        <h2>Shelly Plug</h2>
+        <p>Verwaltung des Shelly Plugs.</p>
     </div>
  </a>
 </main>

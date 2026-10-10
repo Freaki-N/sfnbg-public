@@ -3,7 +3,7 @@
 //require_once 'config.php';
 //$csvDatei = BACKEND . 'fahrten.csv';
 $csvDatei = __DIR__ . '/../../../data/WP_Backend/fahrten.csv';
-$spalten = ['id', 'abfahrtszeit', 'liniennummer', 'sonderzeichen', 'ziel', 'betriebstag', 'sonderinfo', 'abfahrtszeit_prognose', 'triebwagen', 'beiwagen_1', 'beiwagen_2', 'abfahrtszeit_ist'];
+$spalten = ['id', 'abfahrtszeit', 'liniennummer', 'sonderzeichen', 'ziel', 'betriebstag', 'sonderinfo', 'abfahrtszeit_prognose', 'triebwagen', 'beiwagen_1', 'beiwagen_2', 'abfahrtszeit_ist', 'block_id'];
 $mapping = [
     'abfahrtszeit' => 'abfahrtszeit',
     'betriebstag' => 'betriebstag',
@@ -13,7 +13,8 @@ $mapping = [
     'sonderinfo' => 'sonderinfo',
     'triebwagen' => 'triebwagen',
     'beiwagen_1' => 'beiwagen_1',
-    'beiwagen_2' => 'beiwagen_2'
+    'beiwagen_2' => 'beiwagen_2',
+    'block_id' => 'block_id'
 ];
 $allowedPattern = '/^[a-zA-Z0-9äöüÄÖÜß\-:\s.,+]*$/u';
 
@@ -24,7 +25,9 @@ function ladeCSV($datei) {
     $fp = fopen($datei, 'r');
     $header = fgetcsv($fp, 0, ",", '"', "\\");
     while (($zeile = fgetcsv($fp, 0, ",", '"', "\\")) !== false) {
-        $daten[] = array_combine($header, $zeile);
+        $eintrag = array_combine($header, $zeile);
+        $eintrag['block_id'] = $eintrag['block_id'] ?? '';
+        $daten[] = $eintrag;
     }
     fclose($fp);
     return $daten;
@@ -111,12 +114,12 @@ if ($method === 'POST') {
         exit;
     }
 
-    // tag: falls leer, aktuellen Tag setzen (YYYY-MM-DD)
-    if (empty($_POST['tag'])) {
-        $_POST['tag'] = date('Y-m-d');
-    } elseif (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $_POST['tag'])) {
+    // Betriebstag: falls leer, aktuellen Tag setzen (YYYY-MM-DD)
+    if (empty($_POST['betriebstag'])) {
+        $_POST['betriebstag'] = date('Y-m-d');
+    } elseif (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $_POST['betriebstag'])) {
         http_response_code(400);
-        echo "Fehler: 'tag' muss im Format YYYY-MM-DD sein.";
+        echo "Fehler: 'betriebstag' muss im Format YYYY-MM-DD sein.";
         exit;
     }
 
@@ -173,7 +176,7 @@ if ($method === 'POST') {
     // Set prognose and ist to the provided abfahrtszeit when available
     if (isset($_POST['abfahrtszeit'])) {
         $neueZeile['abfahrtszeit_prognose'] = $_POST['abfahrtszeit'];
-        $neueZeile['abfahrtszeit_ist'] = $_POST['abfahrtszeit'];
+        //$neueZeile['abfahrtszeit_ist'] = $_POST['abfahrtszeit'];
     }
 
     $daten[] = $neueZeile;

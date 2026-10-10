@@ -3,6 +3,17 @@ betriebstagInput.addEventListener('change', () => {
   ladeFuehrungen();
 });
 
+const fuehrungenVergangenheitAusblenden = document.getElementById('fuehrungenVergangenheitAusblenden');
+fuehrungenVergangenheitAusblenden.addEventListener('change', () => {
+  ladeFuehrungen();
+});
+
+setInterval(() => {
+  if (fuehrungenVergangenheitAusblenden.checked) {
+    ladeFuehrungen().catch(error => console.error('Führungen konnten nicht aktualisiert werden:', error));
+  }
+}, 30 * 1000);
+
 function oeffneFuehrungModal() {
   const modal = document.getElementById('fuehrungModal');
   modal.style.display = 'flex';
@@ -21,7 +32,11 @@ async function ladeFuehrungen() {
 
   const aktuellerTag = betriebstagInput.value; // YYYY-MM-DD
 
-  const gefilterteFuehrungen = daten.filter(fuehrung => fuehrung.betriebstag === aktuellerTag);
+  const gefilterteFuehrungen = daten.filter(fuehrung => {
+    return fuehrung.betriebstag === aktuellerTag
+      && (!fuehrungenVergangenheitAusblenden.checked
+        || !istMehrAlsZehnMinutenVergangen(fuehrung.betriebstag, fuehrung.startzeit));
+  });
 
   gefilterteFuehrungen.sort((a, b) => {
     const zeitA = a.startzeit.split(':').map(Number);
@@ -128,5 +143,4 @@ document.getElementById('fuehrungForm').addEventListener('submit', async e => {
 resetFuehrungForm();
 
 ladeFuehrungen();
-
 

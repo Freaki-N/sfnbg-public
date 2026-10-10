@@ -27,12 +27,50 @@
     p {
       opacity: 0.8;
     }
+
+    button {
+      padding: 10px 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <div class="box">
     <h1>Keine Verbindung</h1>
     <p>Die Webseite ist momentan nicht erreichbar.</p>
+    <button id="start-server" type="button">Server starten</button>
+    <p id="shelly-status" role="status" aria-live="polite"></p>
   </div>
+  <script>
+    const startButton = document.getElementById('start-server');
+    const shellyStatus = document.getElementById('shelly-status');
+
+    startButton.addEventListener('click', async () => {
+      startButton.disabled = true;
+      shellyStatus.textContent = 'ShellyPlug wird angefragt...';
+
+      try {
+        const response = await fetch('http://shellyplugs3-9070694d5594.local/relay/0?turn=on', {
+          cache: 'no-store'
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const result = await response.json();
+        if (result.ison === true) {
+          shellyStatus.textContent = 'Der ShellyPlug hat den Server eingeschaltet.';
+        } else if (result.ison === false) {
+          shellyStatus.textContent = 'Der ShellyPlug antwortet, aber der Server konnte nicht eingeschaltet werden.';
+        } else {
+          throw new Error('Die Shelly-Antwort enthält keinen gültigen Status.');
+        }
+      } catch (error) {
+        shellyStatus.textContent = `ShellyPlug-Anfrage fehlgeschlagen: ${error.message}`;
+      } finally {
+        startButton.disabled = false;
+      }
+    });
+  </script>
 </body>
 </html>

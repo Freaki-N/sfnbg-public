@@ -3,6 +3,17 @@ betriebstagInput.addEventListener('change', () => {
   ladeSondertexte();
 });
 
+const sondertexteVergangenheitAusblenden = document.getElementById('sondertexteVergangenheitAusblenden');
+sondertexteVergangenheitAusblenden.addEventListener('change', () => {
+  ladeSondertexte();
+});
+
+setInterval(() => {
+  if (sondertexteVergangenheitAusblenden.checked) {
+    ladeSondertexte().catch(error => console.error('Sondertexte konnten nicht aktualisiert werden:', error));
+  }
+}, 30 * 1000);
+
 async function ladeSondertexte() {
   const res = await fetch(API_URL + 'sondertexte/');
   const text = await res.text();
@@ -12,7 +23,11 @@ async function ladeSondertexte() {
 
   const aktuellerTag = betriebstagInput.value; // YYYY-MM-DD
 
-  const gefilterteSondertexte = daten.filter(sondertext => sondertext.betriebstag === aktuellerTag);
+  const gefilterteSondertexte = daten.filter(sondertext => {
+    return sondertext.betriebstag === aktuellerTag
+      && (!sondertexteVergangenheitAusblenden.checked
+        || !istMehrAlsZehnMinutenVergangen(sondertext.betriebstag, sondertext.startzeit));
+  });
 
   gefilterteSondertexte.sort((a, b) => {
     const zeitA = a.startzeit.split(':').map(Number);
@@ -120,6 +135,5 @@ document.getElementById('sondertextForm').addEventListener('submit', async e => 
 resetSondertextForm();
 
 ladeSondertexte();
-
 
 
