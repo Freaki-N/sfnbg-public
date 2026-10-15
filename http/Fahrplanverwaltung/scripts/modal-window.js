@@ -1,4 +1,5 @@
 var modalWindow = undefined;
+const patchnotesSpeicherKey = 'fahrplanverwaltung-patchnotes-dismissed-version';
 
 function oeffneModal(elemModalWindow) {
     modalWindow = elemModalWindow
@@ -24,8 +25,17 @@ function oeffnePatchnotes() {
 }
 
 function zeigePatchnotesBeimErstenAufruf() {
-    const patchnotesVersion = '2026-10-10';
-    const patchnotesSpeicherKey = 'fahrplanverwaltung-patchnotes-version';
+    const patchnotesModal = document.getElementById('patchnotesModal');
+    if (!patchnotesModal) {
+        console.error('Das Patchnotes-Fenster wurde nicht gefunden.');
+        return;
+    }
+
+    const patchnotesVersion = patchnotesModal.dataset.version;
+    if (!patchnotesVersion) {
+        console.error('Die Patchnotes-Version wurde nicht festgelegt.');
+        return;
+    }
 
     try {
         if (localStorage.getItem(patchnotesSpeicherKey) === patchnotesVersion) {
@@ -35,7 +45,19 @@ function zeigePatchnotesBeimErstenAufruf() {
         console.error('Der Patchnotes-Status konnte nicht gelesen werden:', error);
     }
 
-    if (!oeffnePatchnotes()) {
+    oeffneModal(patchnotesModal);
+}
+
+function patchnotesNichtMehrAnzeigen() {
+    const patchnotesModal = document.getElementById('patchnotesModal');
+    if (!patchnotesModal) {
+        console.error('Das Patchnotes-Fenster wurde nicht gefunden.');
+        return;
+    }
+
+    const patchnotesVersion = patchnotesModal.dataset.version;
+    if (!patchnotesVersion) {
+        console.error('Die Patchnotes-Version wurde nicht festgelegt.');
         return;
     }
 
@@ -43,7 +65,10 @@ function zeigePatchnotesBeimErstenAufruf() {
         localStorage.setItem(patchnotesSpeicherKey, patchnotesVersion);
     } catch (error) {
         console.error('Der Patchnotes-Status konnte nicht gespeichert werden:', error);
+        return;
     }
+
+    schliesseModal();
 }
 
 if (document.readyState === 'loading') {

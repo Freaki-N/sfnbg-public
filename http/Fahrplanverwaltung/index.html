@@ -381,7 +381,7 @@
     </div>
 
     <!-- MODALES FENSTER: Aktuelle Patchnotes -->
-    <div id="patchnotesModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="patchnotesTitel">
+    <div id="patchnotesModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="patchnotesTitel" data-version="2026-10-09">
         <div class="modal-window">
             <div class="modal-header">
                 <h3 id="patchnotesTitel">Aktuelle Patchnotes</h3>
@@ -395,6 +395,9 @@
                     <li>Beim Anlegen einer Fahrt kann ein Kurs hinterlegt werden. Bei einer Fahrzeugzuweisung werden alle Fahrten mit demselben Kurs automatisch zugewiesen. Nachträgliche Änderungen sind für jede Fahrt individuell möglich.</li>
                     <li>Die Mobile-Ansicht wurde verbessert.</li>
                 </ul>
+                <div class="modal-actions">
+                    <button class="patchnotes-dismiss-button" type="button" onclick="patchnotesNichtMehrAnzeigen()">Nicht mehr anzeigen</button>
+                </div>
             </div>
         </div>
     </div>
@@ -402,7 +405,7 @@
     <script src="/scripts/default_data.js"></script>
     <script src="/scripts/default.js"></script>
     <script src="scripts/script.js?v=20261009-1206"></script>
-    <script src="scripts/modal-window.js?v=20261010-1538"></script>
+    <script src="scripts/modal-window.js?v=20261015-1511"></script>
     <script src="scripts/fahrten.js?v=20261009-1206"></script>
     <script src="scripts/fuehrungen.js?v=20261009-1206"></script>
     <script src="scripts/sondertexte.js?v=20261009-1206"></script>
